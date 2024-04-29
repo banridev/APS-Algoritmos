@@ -25,25 +25,52 @@ def exibir_palavra(palavra, letras_corretas):
 def desenhar_forca(tentativas):
     partes_corpo = [
         " O\n",
-        "/|\\\n",
+        "/",
+        "|",
+        "\\\n",
         "/ \\\n"
     ]
 
-    for parte in partes_corpo[:tentativas]:
-        print(parte, end='')
+    if tentativas <= 4:
+        print(partes_corpo[0], end='')
+    if tentativas <= 3:
+        print(partes_corpo[1], end='')
+    if tentativas <= 2:
+        print(partes_corpo[2], end='')
+    if tentativas <= 1:
+        print(partes_corpo[3], end='')
+    if tentativas <= 0:
+        print(partes_corpo[4], end='')
+
+# Função para fornecer dicas
+def fornecer_dica(palavra, letras_corretas, dicas_usadas):
+    # Selecionar uma letra da palavra que ainda não foi adivinhada
+    letras_nao_descobertas = [letra for letra in palavra if letra not in letras_corretas]
+    letra_dica = random.choice(letras_nao_descobertas)
+    dicas_usadas.append(letra_dica)
+    return letra_dica
 
 # Função principal do jogo
 def jogo_da_forca():
     palavra = escolher_palavra(palavras)
     letras_corretas = set()
-    tentativas = 6
+    tentativas = 5
+    dicas_usadas = []
 
     print("Bem-vindo ao jogo da forca!")
     print("Adivinhe a palavra:")
 
     while tentativas > 0:
         exibir_palavra(palavra, letras_corretas)
-        letra = input("Digite uma letra: ").lower()
+        letra = input("Digite uma letra (ou 'dica' para dica): ").lower()
+
+        if letra == 'dica':
+            if len(dicas_usadas) < 2:
+                dica = fornecer_dica(palavra, letras_corretas, dicas_usadas)
+                print("Dica:", dica)
+            else:
+                print("Você já usou todas as dicas disponíveis.")
+            continue
 
         if letra in letras_corretas:
             print("Você já tentou esta letra. Tente outra.")
