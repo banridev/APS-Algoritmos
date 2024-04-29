@@ -21,6 +21,17 @@ def exibir_palavra(palavra, letras_corretas):
             print('_', end=' ')
     print()
 
+# Função para desenhar o boneco da forca
+def desenhar_forca(tentativas):
+    partes_corpo = [
+        " O\n",
+        "/|\\\n",
+        "/ \\\n"
+    ]
+
+    for parte in partes_corpo[:tentativas]:
+        print(parte, end='')
+
 # Função principal do jogo
 def jogo_da_forca():
     palavra = escolher_palavra(palavras)
@@ -47,10 +58,11 @@ def jogo_da_forca():
         else:
             print("Letra errada!")
             tentativas -= 1
-            print("Tentativas restantes:", tentativas)
+            desenhar_forca(tentativas)
 
     if tentativas == 0:
         print("Você perdeu! A palavra correta era:", palavra)
 
 # Chamada da função principal
-jogo_da_forca()
+if __name__ == "__main__":
+    jogo_da_forca()
